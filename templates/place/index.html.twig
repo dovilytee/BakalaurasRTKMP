@@ -1,0 +1,31 @@
+{% extends('base.html.twig') %}
+{% block body %}
+    <div class="container py-5">
+
+        <div class="row text-center text-white mb-5">
+            <div class="col-lg-7 mx-auto">
+                <h1 class="display-4">All places</h1>
+            </div>
+        </div>
+        <!-- End -->
+
+        <div class="row color-white" style="background-color:white;">
+            <div class="col-lg-8 mx-auto">
+                <table id="place" class="table">
+                    <thead>
+                    <tr>
+                        <th>Photo</th>
+                        <th>Evaluation</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th>Address</th>
+                        <th>Comment</th>
+                    </tr>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script src="/js/main.js"></script>
+{% endblock %}
