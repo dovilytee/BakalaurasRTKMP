@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Place;
+use App\Entity\Trip;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Place>
+ * @extends ServiceEntityRepository<Trip>
  *
- * @method Place|null find($id, $lockMode = null, $lockVersion = null)
- * @method Place|null findOneBy(array $criteria, array $orderBy = null)
- * @method Place[]    findAll()
- * @method Place[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Trip|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Trip|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Trip[]    findAll()
+ * @method Trip[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PlaceRepository extends ServiceEntityRepository
+class TripRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Place::class);
+        parent::__construct($registry, Trip::class);
     }
-    public function add(Place $entity, bool $flush = false): void
+    public function add(Trip $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -29,7 +29,7 @@ class PlaceRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Place $entity, bool $flush = false): void
+    public function remove(Trip $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -47,7 +47,7 @@ class PlaceRepository extends ServiceEntityRepository
         return $this->getEntityManager()
             ->createQuery(
                 'SELECT a
-         FROM App:Place a
+         FROM App:Trip a
       
          ORDER BY a.posted_at DESC'
             )
@@ -82,13 +82,13 @@ class PlaceRepository extends ServiceEntityRepository
      *
      * @return object or null
      */
-    public function findPlaceByid($id)
+    public function findTripByid($id)
     {
         try {
             return $this->getEntityManager()
                 ->createQuery(
                     "SELECT p
-                FROM App\Entity\Place
+                FROM App\Entity\Trip
                 p WHERE p.id =:id"
                 )
                 ->setParameter('id', $id)
@@ -100,48 +100,47 @@ class PlaceRepository extends ServiceEntityRepository
         return $this->getEntityManager()
             ->createQuery(
                 'SELECT p
-                FROM App\Entity\Place p
+                FROM App:Trip p
                 WHERE p.name LIKE :str'
             )
             ->setParameter('str', '%'.$str.'%')
             ->getResult();
     }
-    public function findByPlaceType(int $placeTypeId): array{
-        return $this->createQueryBuilder('p')
-            ->join('p.placeType', 'pt')
-            ->andWhere('pt.id = :placeTypeId')
-            ->setParameter('placeTypeId', $placeTypeId)
+    public function findByTripCity(int $tripCityId): array{
+        return $this->createQueryBuilder('t')
+            ->join('t.tripCity', 'tc')
+            ->andWhere('tc.id = :tripCityId')
+            ->setParameter('tripCityId', $tripCityId)
             ->getQuery()
             ->getResult();
     }
-    public function findByPlaceCity(int $placeCityId): array{
-        return $this->createQueryBuilder('p')
-            ->join('p.placeCity', 'pt')
-            ->andWhere('pt.id = :placeCityId')
-            ->setParameter('placeCityId', $placeCityId)
+    public function findByTripNumber(int $tripNumberId): array{
+        return $this->createQueryBuilder('t')
+            ->join('t.tripNumber', 'tn')
+            ->andWhere('tn.id = :tripNumberId')
+            ->setParameter('tripNumberId', $tripNumberId)
             ->getQuery()
             ->getResult();
     }
-
 //    /**
-//     * @return Place[] Returns an array of Place objects
+//     * @return Route[] Returns an array of Route objects
 //     */
 //    public function findByExampleField($value): array
 //    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
+//        return $this->createQueryBuilder('r')
+//            ->andWhere('r.exampleField = :val')
 //            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
+//            ->orderBy('r.id', 'ASC')
 //            ->setMaxResults(10)
 //            ->getQuery()
 //            ->getResult()
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Place
+//    public function findOneBySomeField($value): ?Route
 //    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
+//        return $this->createQueryBuilder('r')
+//            ->andWhere('r.exampleField = :val')
 //            ->setParameter('val', $value)
 //            ->getQuery()
 //            ->getOneOrNullResult()

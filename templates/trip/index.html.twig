@@ -1,0 +1,43 @@
+{% extends('base.html.twig') %}
+{% block body %}
+    <div class="container py-5">
+
+        <div class="row text-center text-white mb-5">
+            <div class="col-lg-7 mx-auto">
+                <h1 class="display-4">All trips</h1>
+            </div>
+        </div>
+        <!-- End -->
+
+        <div class="row color-white" style="background-color:white;">
+            <div class="col-lg-8 mx-auto">
+                <table id="trip" class="table">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </tr>
+                    {% if trips %}
+
+                    </thead>
+                    <tbody>
+                    {% for trip in trips %}
+                        <tr>
+                            <td>{{ trip.getName }}</td>
+                            <td>{{ trip.getDescription }}</td>
+
+                            <td>
+                                <a href="/trip/{{ trip.id }}" class="btn btn-dark">Rodyti</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    {% endif %}
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script src="/js/main.js"></script>
+{% endblock %}

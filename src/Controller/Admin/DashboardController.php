@@ -2,9 +2,13 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Evaluation;
+use App\Entity\PlaceCity;
+use App\Entity\PlaceType;
+use App\Entity\Rating;
 use App\Entity\User;
+use App\Entity\TripRating;
 use App\Entity\Place;
+use App\Entity\Trip;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -29,7 +33,14 @@ class DashboardController extends AbstractDashboardController
             ->generateUrl();
         return $this->redirect($url);
         $url = $this->adminUrlGenerator
-            ->setController(EvaluationCrudController::class)
+            ->setController(TripCrudController::class)
+            ->generateUrl();
+        return $this->redirect($url);
+        $url = $this->adminUrlGenerator
+            ->setController(RatingCrudController::class)
+            ->generateUrl();
+        $url = $this->adminUrlGenerator
+            ->setController(TripRatingCrudController::class)
             ->generateUrl();
         return $this->redirect($url);
         return parent::index();
@@ -61,7 +72,11 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('Admin', 'fa fa-home');
         yield MenuItem::linkToCrud('User', 'fas fa-user', User::class);
-        yield MenuItem::linkToCrud('Place', 'fas fa-home', Place::class);
-        yield MenuItem::linkToCrud('Evaluation', 'fas fa-check', Evaluation::class);
+        yield MenuItem::linkToCrud('Place', 'fas fa-book fa-fw', Place::class);
+        yield MenuItem::linkToCrud('Place Types', 'fas fa-book fa-fw', PlaceType::class);
+        yield MenuItem::linkToCrud('Place Cities', 'fas fa-book fa-fw', PlaceCity::class);
+        yield MenuItem::linkToCrud('Trip', 'fas fa-map-marker-alt', Trip::class);
+        yield MenuItem::linkToCrud('Place ratings', 'fas fa-check', Rating::class);
+        yield MenuItem::linkToCrud('Trip ratings', 'fas fa-check', TripRating::class);
     }
 }

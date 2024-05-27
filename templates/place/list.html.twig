@@ -1,0 +1,67 @@
+{% extends('base.html.twig') %}
+{% block title %} Place list {% endblock %}
+{% block body %}
+    <div class="container py-5">
+
+        <div class="row text-center text-white mb-5">
+            <div class="col-lg-7 mx-auto">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-5">
+                            <h1>Place List</h1>
+                                </div>
+                                    <div class="col-md-7">
+
+                                        {{ form_start(form) }}
+                                        <div>
+                                            {{ form_label(form.placeType) }}
+                                            {{ form_widget(form.placeType) }}
+                                        </div>
+                                        <div>
+                                            {{ form_label(form.placeCity) }}
+                                            {{ form_widget(form.placeCity) }}
+                                        </div>
+                                        <button type="submit">Filter</button>
+                                        {{ form_end(form) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <div class="row color-white" style="background-color:white;">
+                <div class="col-lg-8 mx-auto">
+                    <table id="place" class="table">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Address</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Action</th>
+                        </tr>
+                        {% if places %}
+
+                        </thead>
+                        <tbody>
+                        {% for place in places %}
+                            <tr>
+                                <td>{{ place.getName }}</td>
+                                <td>{{ place.getAddress }}</td>
+                                <td>{{ place.getType }}</td>
+                                <td>{{ place.getDescription }}</td>
+
+                                <td>
+                                    <a href="/place/{{ place.id }}" class="btn btn-dark">Rodyti</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                        {% endif %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -4,7 +4,35 @@
 
         <div class="row text-center text-white mb-5">
             <div class="col-lg-7 mx-auto">
-                <h1 class="display-4">All places</h1>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <h4>All places</h4>
+                            </div>
+                            <div class="col-md-7">
+                                <form action="" method="GET">
+                                    <div class="row">
+                                        <div id = "type" class="col-md-4">
+                                            <select name="type" id="type">
+                                                <option value="" disabled="" selected="">Select type</option>
+                                                <option value="Caves">Caves</option>
+                                                <option value="Church">Church</option>
+                                                <option value="Indoor Activities">Indoor Activities</option>
+                                                <option value="Museum">Museum</option>
+                                                <option value="Outdoor Activities">Outdoor Activities</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button type="submit" class="btn btn-primary">Filter</button>
+                                            <a href="/place" class="btn btn-danger">Reset</a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- End -->
@@ -14,18 +42,42 @@
                 <table id="place" class="table">
                     <thead>
                     <tr>
-                        <th>Photo</th>
-                        <th>Evaluation</th>
+                        <th>Name</th>
+                        <th>Address</th>
                         <th>Type</th>
                         <th>Description</th>
-                        <th>Address</th>
-                        <th>Comment</th>
+                        <th>Action</th>
                     </tr>
+                    {% if places %}
 
+                    </thead>
+                    <tbody>
+                    {% for place in places %}
+                        <tr>
+                            <td>{{ place.getName }}</td>
+                            <td>{{ place.getAddress }}</td>
+                            <td>{{ place.getType }}</td>
+                            <td>{{ place.getDescription }}</td>
+
+                            <td>
+                                <a href="/place/{{ place.id }}" class="btn btn-dark">Rodyti</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    {% endif %}
+                </table>
             </div>
+
         </div>
     </div>
 {% endblock %}
-{% block javascripts %}
-    <script src="/js/main.js"></script>
+{% block javascript %}
+<script type="text/javascript">
+    $(document).ready(function (){
+    $("#type").on('change', function () {
+            var value = $(this).val();
+    });
+});
+    </script>
 {% endblock %}

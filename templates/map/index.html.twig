@@ -35,11 +35,11 @@
     function errorLocation() {
         setupMap([4.35, 50.84])
     }
-
+//mapbox://styles/mapbox/streets-v12
     function setupMap(center) {
         const map = new mapboxgl.Map({
             container: 'map', // container ID
-            style: 'mapbox://styles/mapbox/streets-v12', // style URL
+            style: 'mapbox://styles/dovilyte/streets-v12', // style URL
             center: center, // starting position [lng, lat]
             zoom: 12, // starting zoom
         })
