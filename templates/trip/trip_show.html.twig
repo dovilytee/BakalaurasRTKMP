@@ -1,89 +1,122 @@
-{% extends('base.html.twig') %}
+{% extends 'base.html.twig' %}
+
 {% block body %}
-    <script src='https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js'></script>
-    <link href='https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css' rel='stylesheet' />
-    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.3.1/mapbox-gl-directions.js"></script>
-    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.3.1/mapbox-gl-directions.css" type="text/css">
-    <style>
-        body {
-            margin: 0;
-        }
-        #map {
-            height: 65vh;
-            width: 50vw;
-        }
-    </style>
-        <!-- List group-->
-        <ul class="list-group shadow">
-        <!-- list group item-->
-        <li class="list-group-item">
+<style>
+    .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    #map {
+        width: 50%;
+        height: 400px;
+    }
+
+    .description {
+        width: 28%;
+    }
+
+    .paragraph-with-gap {
+        margin-bottom: 20px;
+    }
+
+    .paragraph-with-gap:last-child {
+        margin-bottom: 0;
+    }
+</style>
+<script src='https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css' rel='stylesheet' />
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.3.1/mapbox-gl-directions.js"></script>
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.3.1/mapbox-gl-directions.css" type="text/css">
+<style>
+    body {
+        margin: 0;
+    }
+    #map {
+        height: 65vh;
+        width: 50vw;
+    }
+</style>
+<!-- List group-->
+<ul class="list-group shadow">
+    <!-- list group item-->
+    <li class="list-group-item">
+        <div class="container">
             <!-- Custom content-->
-            <div class="media align-items-lg-center flex-column flex-lg-row p-3">
-                <div class="media-body order-2 order-lg-1">
-                    <h5 class="mt-0 font-weight-bold mb-2">{{ trip.name }}</h5>
-                    <p class="font-italic text-muted mb-0 small">{{ trip.name }}, {{ trip.description }}</p>
-                    <div id='map'></div>
-
-                    <script>
-                        mapboxgl.accessToken = 'pk.eyJ1IjoiZG92aWx5dGUiLCJhIjoiY2x3M3hudGg0MHhnaTJrbGNtOGc3Z3I3MCJ9.cRp3bAWUCWUX2GRA8YDmJA';
-
-                        navigator.geolocation.getCurrentPosition(successLocation, errorLocation, {enableHighAccuracy: true})
-
-                        function successLocation(position) {
-                            setupMap([position.coords.longitude, position.coords.latitude])
-                        }
-                        function errorLocation() {
-                            setupMap([4.35, 50.84])
-                        }
-                        //mapbox://styles/mapbox/streets-v12
-                        function setupMap(center) {
-
-                            const map = new mapboxgl.Map({
-                                container: 'map', // container ID
-                                style: '{{ trip.link }}' , // style URL
-                                center: center, // starting position [lng, lat]
-                                zoom: 12, // starting zoom
-                            })
-                            const nav = new mapboxgl.NavigationControl();
-                            map.addControl(nav)
-
-                            var directions = new MapboxDirections({
-                                accessToken: mapboxgl.accessToken
-                            });
-
-                            map.addControl(directions, 'top-left');
-                        }
-
-                    </script>
-
-                    <!-- Comments Form -->
-                    <div class="card my-4">
-
-                        <div>
-                            <strong>Average Rating:</strong> {{ averageRating|number_format(1) }} / 5
-                        </div>
-
-                        <h2>Rate this trip</h2>
-                        {{ form_start(form) }}
-                        {{ form_widget(form) }}
-                        {{ form_end(form) }}
-                        <h5 class="card-header">Ratings and comments:</h5>
-                        <div class="card-body">
-                                <div class="form-group">
-                                    <ul>
-                                        {% for rating in ratings %}
-                                            <li>{{ rating.rating }} Stars ({{ rating.createdAt|date('Y-m-d H:i') }})</li>
-                                            <p>{{ rating.comment }}</p>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-center justify-content-between mt-1">
+            <div class="description">
+                <div class="media align-items-lg-center flex-column flex-lg-row p-3">
+                    <div class="media-body order-2 order-lg-1">
+                        <h5 class="mt-0 font-weight-bold mb-2">{{ trip.name }}</h5>
+                        <p class="paragraph-with-gap">
+                        <p class="font-italic text-muted mb-0 small">{{ trip.description }}</p>
+                        </p>
+                        <p class="paragraph-with-gap">
+                        <h6 class="mt-0 font-weight-bold mb-2"> Places you will visit:</h6>
+                        <p class="font-italic text-muted mb-0 small">{{ visit|raw }}</p>
+                        </p>
+                        <p class="paragraph-with-gap">
+                        <h6 class="mt-0 font-weight-bold mb-2"> This trip duration:</h6>
+                        <p class="font-italic text-muted mb-0 small">{{ trip.duration }}</p>
+                        </p>
                     </div>
                 </div>
             </div>
+            <div id='map'>
+                <script>
+                    mapboxgl.accessToken = 'pk.eyJ1IjoiZG92aWx5dGUiLCJhIjoiY2x3M3hudGg0MHhnaTJrbGNtOGc3Z3I3MCJ9.cRp3bAWUCWUX2GRA8YDmJA';
 
-        </li>
-        <!-- End -->
-{% endblock %}
+                    navigator.geolocation.getCurrentPosition(successLocation, errorLocation, {enableHighAccuracy: true})
+
+                    function successLocation(position) {
+                        setupMap([position.coords.longitude, position.coords.latitude])
+                    }
+                    function errorLocation() {
+                        setupMap([4.35, 50.84])
+                    }
+                    function setupMap(center) {
+                        const map = new mapboxgl.Map({
+                            container: 'map',
+                            style: '{{ trip.link }}',
+                            center: center,
+                            zoom: 12,
+                        })
+                        const nav = new mapboxgl.NavigationControl();
+                        map.addControl(nav)
+
+                        var directions = new MapboxDirections({
+                            accessToken: mapboxgl.accessToken
+                        });
+
+                        map.addControl(directions, 'top-left');
+                    }
+                </script>
+            </div>
+        </div>
+        </div>
+        <div class="card my-4">
+            <div>
+                <strong>Average Rating:</strong> {{ averageRating|number_format(1) }} / 5
+            </div>
+            <h2>Rate this trip</h2>
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            {{ form_end(form) }}
+            <h5 class="card-header">Ratings and comments:</h5>
+            <div class="card-body">
+                <div class="form-group">
+                    <ul>
+                        {% for rating in ratings %}
+                            <li>{{ rating.rating }} ⭐ ({{ rating.createdAt|date('Y-m-d H:i') }})</li>
+                            <p>{{ rating.comment }}</p>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex align-items-center justify-content-between mt-1">
+        </div>
+        </div>
+    </li>
+    <!-- End -->
+    {% endblock %}

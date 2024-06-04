@@ -1,24 +1,76 @@
+
 {% extends 'base.html.twig' %}
 
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
+    <style>
+        .card {
+            border: none;
+        }
 
-    <h1>Register</h1>
+        .card-body {
+            border-radius: 20px;
+        }
 
-    {{ form_errors(registrationForm) }}
+        .btn-primary {
+            background-color: #4CAF50;
+            border-color: #4CAF50;
+        }
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.nickname) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+        .btn-primary:hover {
+            background-color: #45a049;
+            border-color: #45a049;
+        }
 
-        <button type="submit" class="btn btn-lg btn-primary">Register</button>
-    {{ form_end(registrationForm) }}
+        .form-control:focus {
+            border-color: #4CAF50;
+            box-shadow: none;
+        }
+
+        .needs-validation input:invalid {
+            border-color: #dc3545 !important;
+        }
+
+        .needs-validation input:valid {
+            border-color: #28a745 !important;
+        }
+
+        .needs-validation input:valid + .invalid-feedback {
+            display: none;
+        }
+
+        .needs-validation input:invalid + .valid-feedback {
+            display: none;
+        }
+    </style>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow-lg">
+                    <div class="card-body">
+                        <h1 class="text-center mb-4">Register</h1>
+                        {{ form_start(registrationForm, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+                        <div class="form-group">
+                            {{ form_row(registrationForm.nickname, {'label': 'Nickname', 'attr': {'class': 'form-control', 'placeholder': 'Enter your nickname'}}) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_row(registrationForm.email, {'label': 'Email', 'attr': {'class': 'form-control', 'placeholder': 'Enter your email'}}) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_row(registrationForm.plainPassword, {'label': 'Password', 'attr': {'class': 'form-control', 'placeholder': 'Enter your password'}}) }}
+                        </div>
+                        <div class="form-check mb-3">
+                            {{ form_row(registrationForm.agreeTerms, {'label': 'I agree to the terms and conditions', 'attr': {'class': 'form-check-input'}}) }}
+                            {{ form_label(registrationForm.agreeTerms, null, {'label_attr': {'class': 'form-check-label'}}) }}
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-block">Register</button>
+                        </div>
+                        {{ form_end(registrationForm) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

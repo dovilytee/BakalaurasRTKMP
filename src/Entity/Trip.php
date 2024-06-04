@@ -18,14 +18,21 @@ class Trip
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 4999)]
+    private ?string $visit = null;
+
+    #[ORM\Column(length: 4999)]
     private ?string $description = null;
+
+    #[ORM\Column(length: 4999)]
+    private ?string $duration = null;
 
     #[ORM\Column(length: 255)]
     private ?string $link = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $tripNumber = null;
+    #[ORM\ManyToOne(targetEntity: TripNumber::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private $tripNumber = null;
 
     public function getId(): ?int
     {
@@ -42,7 +49,17 @@ class Trip
 
         return $this;
     }
+    public function getVisit(): ?string
+    {
+        return $this->visit;
+    }
 
+    public function setVisit(string $visit): static
+    {
+        $this->visit = $visit;
+
+        return $this;
+    }
     public function getDescription(): ?string
     {
         return $this->description;
@@ -51,6 +68,17 @@ class Trip
     public function setDescription(string $description): static
     {
         $this->description = $description;
+
+        return $this;
+    }
+    public function getDuration(): ?string
+    {
+        return $this->duration;
+    }
+
+    public function setDuration(string $duration): static
+    {
+        $this->duration = $duration;
 
         return $this;
     }
@@ -65,12 +93,12 @@ class Trip
 
         return $this;
     }
-    public function getTripNumber(): ?string
+    public function getTripNumber(): ?int
     {
         return $this->tripNumber;
     }
 
-    public function setTripNumber(string $tripNumber): static
+    public function setTripNumber(int $tripNumber): static
     {
         $this->tripNumber = $tripNumber;
 

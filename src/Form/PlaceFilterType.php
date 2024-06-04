@@ -23,15 +23,15 @@ class PlaceFilterType extends AbstractType
     {
         $builder
             ->add('placeType', EntityType::class, ['class' => PlaceType::class,
-                                                        'choice_label' => 'name',
-                                                        'placeholder' => 'Choose a place type',
-                                                        'required' => false,
+                'choice_label' => 'name',
+                'placeholder' => 'Choose a place type',
+                'required' => false,
             ])
             ->add('placeCity', EntityType::class, ['class' => PlaceCity::class,
                 'choice_label' => 'name',
                 'placeholder' => 'Choose a city',
                 'required' => false,
-        ]);
+            ]);
     }
     public function configureOptions(OptionsResolver $resolver)
     {

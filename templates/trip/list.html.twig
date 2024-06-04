@@ -18,6 +18,10 @@
                                             {{ form_label(form.tripCity) }}
                                             {{ form_widget(form.tripCity) }}
                                         </div>
+                                        <div>
+                                            {{ form_label(form.tripNumber) }}
+                                            {{ form_widget(form.tripNumber) }}
+                                        </div>
                                         <button type="submit">Filter</button>
                                         {{ form_end(form) }}
                                     </div>
@@ -28,24 +32,26 @@
                 </div>
             <div class="row color-white" style="background-color:white;">
                 <div class="col-lg-8 mx-auto">
-                    <table id="trip" class="table">
+                    <table id="trip" class="table table-custom">
                         <thead>
                         <tr>
                             <th>Name</th>
+                            <th>Visit places list</th>
                             <th>Description</th>
                             <th>Action</th>
                         </tr>
-                        {% if trips %}
+                        {% if trips%}
 
                         </thead>
                         <tbody>
                         {% for trip in trips %}
                             <tr>
                                 <td>{{ trip.getName }}</td>
+                                <td>{{ trip.getVisit }}</td>
                                 <td>{{ trip.getDescription }}</td>
 
                                 <td>
-                                    <a href="/trip/{{ trip.id }}" class="btn btn-dark">Rodyti</a>
+                                    <a href="/trip/{{ trip.id }}" class="btn btn-dark">Show</a>
                                 </td>
                             </tr>
                         {% endfor %}

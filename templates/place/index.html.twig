@@ -39,7 +39,7 @@
 
         <div class="row color-white" style="background-color:white;">
             <div class="col-lg-8 mx-auto">
-                <table id="place" class="table">
+                <table id="place" class="table table-custom">
                     <thead>
                     <tr>
                         <th>Name</th>
@@ -58,9 +58,11 @@
                             <td>{{ place.getAddress }}</td>
                             <td>{{ place.getType }}</td>
                             <td>{{ place.getDescription }}</td>
+                            <td>{{ place.getWorking }}</td>
+                            <td>{{ place.getPrice }}</td>
 
                             <td>
-                                <a href="/place/{{ place.id }}" class="btn btn-dark">Rodyti</a>
+                                <a href="/place/{{ place.id }}" class="btn btn-dark">Show</a>
                             </td>
                         </tr>
                     {% endfor %}

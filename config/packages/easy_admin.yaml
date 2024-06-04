@@ -1,0 +1,7 @@
+easy_admin:
+  entities:
+    Place:
+      class: App\Entity\Place
+      form:
+        fields:
+          - { property: 'photos', type: 'file', upload_dir: 'public/uploads/photos/' }

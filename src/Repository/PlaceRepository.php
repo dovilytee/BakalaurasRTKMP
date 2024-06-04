@@ -114,13 +114,32 @@ class PlaceRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-    public function findByPlaceCity(int $placeCityId): array{
+    public function findByTypeAndCity(?int $placeTypeId, ?int $placeCityId)
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->where('p.isVisible = :visible')
+            ->setParameter('visible', true);
+
+        if ($placeTypeId !== null) {
+            $qb->andWhere('p.placeType = :placeType')
+                ->setParameter('placeType', $placeTypeId);
+        }
+
+        if ($placeCityId !== null) {
+            $qb->andWhere('p.placeCity = :placeCity')
+                ->setParameter('placeCity', $placeCityId);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function findByName(string $name)
+    {
         return $this->createQueryBuilder('p')
-            ->join('p.placeCity', 'pt')
-            ->andWhere('pt.id = :placeCityId')
-            ->setParameter('placeCityId', $placeCityId)
+            ->where('p.name = :name')
+            ->setParameter('name', $name)
             ->getQuery()
-            ->getResult();
+            ->getOneOrNullResult();
     }
 
 //    /**

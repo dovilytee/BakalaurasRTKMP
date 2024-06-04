@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\TripCity;
+use App\Entity\TripNumber;
 use App\Entity\User;
 use App\Entity\Trip;
 use App\Entity\PlaceType;
@@ -22,12 +23,16 @@ class TripFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-
             ->add('tripCity', EntityType::class, ['class' => TripCity::class,
                 'choice_label' => 'name',
                 'placeholder' => 'Choose a city',
                 'required' => false,
-        ]);
+            ])
+            ->add('tripNumber', EntityType::class, ['class' => TripNumber::class,
+            'choice_label' => 'number',
+            'placeholder' => 'Choose a number of objects',
+            'required' => false,
+            ]);
     }
     public function configureOptions(OptionsResolver $resolver)
     {

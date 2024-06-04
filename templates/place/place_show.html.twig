@@ -1,42 +1,180 @@
-{% extends('base.html.twig') %}
-{% block body %}
-        <!-- List group-->
-        <ul class="list-group shadow">
-        <!-- list group item-->
-        <li class="list-group-item">
-            <!-- Custom content-->
-            <div class="media align-items-lg-center flex-column flex-lg-row p-3">
-                <div class="media-body order-2 order-lg-1">
-                    <h5 class="mt-0 font-weight-bold mb-2">{{ place.name }}</h5>
-                    <p class="font-italic text-muted mb-0 small">{{ place.name }}, {{ place.address }}, {{ place.description }}, {{ place.type }}</p>
+{% extends 'base.html.twig' %}
 
-                    <div class="d-flex align-items-center justify-content-between mt-1">
+{% block body %}
+<style>
+    .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    #photo {
+        width: 50%;
+        height: 400px;
+    }
+
+    .description {
+        width: 28%;
+    }
+
+    .paragraph-with-location-marker {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .icon-container {
+        margin-right: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .location-marker-icon {
+        width: 18px;
+        height: 19px;
+        color: #0a0a0a;
+    }
+
+    .paragraph-with-location-marker p {
+        margin: 0;
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    .paragraph-with-gap {
+        margin-bottom: 20px;
+    }
+
+    .paragraph-with-gap:last-child {
+        margin-bottom: 0;
+    }
+
+    .price-display {
+        display: flex;
+        align-items: center;
+        font-size: 0.8em;
+        color: #2c3e50;
+    }
+
+    .price-icon {
+        width: 18px;
+        height: 18px;
+        color: #e74c3c;
+    }
+
+    .currency {
+        font-weight: bold;
+    }
+
+    .working-hours-display {
+        display: flex;
+        align-items: center;
+        font-size: 0.8em;
+        color: #2c3e50;
+    }
+
+    .working-hours-icon {
+        width: 24px;
+        height: 24px;
+        color: #3498db;
+    }
+
+    .working-hours-text {
+        display: flex;
+        align-items: baseline;
+    }
+
+    .days, .hours {
+        font-weight: bold;
+    }
+</style>
+<!-- List group-->
+<ul class="list-group shadow">
+    <!-- list group item-->
+    <li class="list-group-item">
+        <div class="container">
+            <!-- Custom content-->
+            <div class="description">
+                <div class="media align-items-lg-center flex-column flex-lg-row p-3">
+                    <div class="media-body order-2 order-lg-1">
+                        <h5 class="mt-0 font-weight-bold mb-2">{{ place.name }}</h5>
+                        <div class="paragraph-with-location-marker">
+                            <div class="icon-container">
+                                <svg class="location-marker-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1118 0z"></path>
+                                    <circle cx="12" cy="10" r="3"></circle>
+                                </svg>
+                            </div>
+                            <p>{{ place.address }}</p>
+                        </div>
+                        <p class="paragraph-with-gap">{{ place.description }}</p>
+                        <p class="paragraph-with-gap">
+                        <div class="working-hours-display">
+                            <div class="icon-container">
+                                <svg class="working-hours-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                </svg>
+                            </div>
+                            <div class="working-hours-text">
+                                <span class="days">{{ place.working }}</span>
+                            </div>
+                        </div>
+                        </p>
+                        <p class="paragraph-with-gap">
+                        <div class="price-display">
+                            <div class="icon-container">
+                                <svg class="price-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 1L3 5v14l9 4 9-4V5l-9-4z"></path>
+                                    <line x1="12" y1="22" x2="12" y2="13"></line>
+                                    <line x1="9" y1="8" x2="15" y2="8"></line>
+                                </svg>
+                            </div>
+                            <span class="currency">{{ place.price }}</span>
+                        </div>
+                        </p>
                     </div>
                 </div>
             </div>
-            <!-- Comments Form -->
-            <div class="card my-4">
-
-                    <div>
-                        <strong>Average Rating:</strong> {{ averageRating|number_format(1) }} / 5
-                    </div>
-
-                    <h2>Rate this trip</h2>
-                    {{ form_start(form) }}
-                    {{ form_widget(form) }}
-                    {{ form_end(form) }}
+            <div id="photo">
+                <div>
+                    <h3>Photos:</h3>
+                    {% if place.photoUrl is not empty %}
+                        <img src="{{ place.photoUrl }}" alt="{{ place.name }} photo" style="width: 300px; height: 300px;">
+                    {% else %}
+                        <p>No photos available.</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="d-flex align-items-center justify-content-between mt-1">
+            </div>
+        </div>
+        <!-- Comments Form -->
+        <div class="card my-4">
+            <div class="comment-form">
+                <div>
+                    <strong>Average Rating:</strong> {{ averageRating|number_format(1) }} / 5
+                </div>
+                <h2>Rate this place</h2>
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                {{ form_end(form) }}
+                <div class="comments-list">
                     <h5 class="card-header">Ratings and comments:</h5>
                     <div class="card-body">
                         <div class="form-group">
                             <ul>
                                 {% for rating in ratings %}
-                                    <li>{{ rating.rating }} Stars ({{ rating.createdAt|date('Y-m-d H:i') }})</li>
+                                    <li>{{ rating.rating }} ⭐ ({{ rating.createdAt|date('Y-m-d H:i') }})</li>
                                     <p>{{ rating.comment }}</p>
                                 {% endfor %}
                             </ul>
                         </div>
                     </div>
+                </div>
             </div>
-        </li>
-        <!-- End -->
-{% endblock %}
+        </div>
+    </li>
+    <!-- End -->
+    {% endblock %}

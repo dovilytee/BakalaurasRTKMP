@@ -32,6 +32,8 @@ class PlaceCrudController extends AbstractCrudController
             TextField::new('name', 'Place Name'),
             TextField::new('address', 'Place Address'),
             TextField::new('description', 'Place Description'),
+            TextField::new('working', 'Place Working hours'),
+            TextField::new('price', 'Place Price'),
             TextField::new('type', 'Place Type'),
             TextField::new('city', 'Place City'),
             AssociationField::new('placeType')
@@ -43,13 +45,5 @@ class PlaceCrudController extends AbstractCrudController
                 ->setCrudController(PlaceCityCrudController::class)
                 ->setFormTypeOption('choice_label', 'name'),
         ];
-    }
-    public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
-    {
-        $qb = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
-        $qb->andWhere('entity.isVisible = :visible')
-            ->setParameter('visible', true);
-
-        return $qb;
     }
 }

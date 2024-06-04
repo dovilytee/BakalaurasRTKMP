@@ -48,15 +48,14 @@ class TripController extends AbstractController
         ]);
     }
     #[Route('/trip/{id}', name: 'trip_show')]
-    public function show_trip(int $id, TripRepository $tripRepository, TripRatingRepository $tripRatingRepository, Request $request, EntityManagerInterface $entityManager): Response
+    public function show_trip(int $id, PlaceRepository $placeRepository, TripRepository $tripRepository, TripRatingRepository $tripRatingRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
         $trip = $entityManager->getRepository(Trip::class)->find($id);
 
         if (!$trip) {
-            throw $this->createNotFoundException(
-                'No product found for id '.$id
-            );
+            throw $this->createNotFoundException('No trip found for id ' . $id);
         }
+
         $rating = new TripRating();
         $form = $this->createForm(TripRatingType::class, $rating);
         $form->handleRequest($request);
@@ -74,11 +73,22 @@ class TripController extends AbstractController
         $ratings = $tripRatingRepository->findBy(['trip' => $trip]);
         $averageRating = $tripRatingRepository->getAverageRating($trip->getId());
 
+        // Modify the description to include links
+        $visit = $trip->getVisit();
+        $places = $placeRepository->findAll();
+        foreach ($places as $place) {
+            if (stripos($visit, $place->getName()) !== false) {
+                $link = $this->generateUrl('place_show', ['id' => $place->getId()]);
+                $visit = preg_replace('/\b' . preg_quote($place->getName(), '/') . '\b/', '<a href="' . $link . '">' . $place->getName() . '</a>', $visit);
+            }
+        }
+
         return $this->render('trip/trip_show.html.twig', [
             'trip' => $trip,
             'form' => $form->createView(),
             'ratings' => $ratings,
             'averageRating' => $averageRating,
+            'visit' => $visit,
         ]);
 
 
@@ -117,29 +127,32 @@ class TripController extends AbstractController
     #[Route('/trip', name: 'trip_list')]
     public function list(Request $request, TripRepository $tripRepository): Response
     {
-
         $form = $this->createForm(TripFilterType::class);
         $form->handleRequest($request);
-        $trips = [];
-        if($form->isSubmitted() && $form->isValid()){
-            $data = $form->getData();
-            $tripCity = $data['tripCity'];
-                if($tripCity) {
-                    $trips = $tripRepository->findByTripCity($tripCity->getId());
-                    if(!$trips ){
-                        throw $this->createNotFoundException(
-                            'No product found for id ');
-                    }
-                }
-                else {
-                    $trips = $tripRepository->findAll();
-                }
 
+        $trips = [];
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            $tripCity = $data['tripCity'] ?? null;
+            $tripNumber = $data['tripNumber'] ?? null;
+
+            // Fetch places based on selected filters
+            $trips = $tripRepository->findByCityAndNumber(
+                $tripCity ? $tripCity->getId() : null,
+                $tripNumber ? $tripNumber->getId() : null
+            );
+
+            // If no places found, redirect to the "not found" page
+            if (empty($trips)) {
+                return $this->redirectToRoute('not_found_list');
+            }
         }
-        return $this->render('trip/list.html.twig', ['form' => $form->createView(),
+
+        return $this->render('trip/list.html.twig', [
+            'form' => $form->createView(),
             'trips' => $trips,
         ]);
-
     }
-
 }

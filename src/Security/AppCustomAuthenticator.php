@@ -61,7 +61,7 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($this->urlGenerator->generate('admin'));
         }
         if ($this->security->isGranted('ROLE_USER')) {
-            return new RedirectResponse($this->urlGenerator->generate('place'));
+            return new RedirectResponse($this->urlGenerator->generate('app_home'));
         }
 
         // For example:

@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+<style>
+    .card {
+        border: none;
+    }
+
+    .card-body {
+        border-radius: 20px;
+    }
+
+    .btn-primary {
+        background-color: #4CAF50;
+        border-color: #4CAF50;
+    }
+
+    .btn-primary:hover {
+        background-color: #45a049;
+        border-color: #45a049;
+    }
+
+    .form-control:focus {
+        border-color: #4CAF50;
+        box-shadow: none;
+    }
+
+    .needs-validation input:invalid {
+        border-color: #dc3545 !important;
+    }
+
+    .needs-validation input:valid {
+        border-color: #28a745 !important;
+    }
+
+    .needs-validation input:valid + .invalid-feedback {
+        display: none;
+    }
+
+    .needs-validation input:invalid + .valid-feedback {
+        display: none;
+    }
+    .margin-top-custom {
+        margin-top: 30px; /* Adjust this value as needed */
+    }
+</style>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <h1 class="text-center mb-4">Create new Place</h1>
+                    {{ form_start(form) }}
+                    <div class="form-group">
+                        {{ form_row(form.name, {'label': 'Name', 'attr': {'class': 'form-control', 'placeholder': 'Enter name'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.address, {'label': 'Address', 'attr': {'class': 'form-control', 'placeholder': 'Enter address'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.description, {'label': 'Description', 'attr': {'class': 'form-control', 'placeholder': 'Enter description'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.working, {'label': 'Working hours', 'attr': {'class': 'form-control', 'placeholder': 'Enter working hours'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.price, {'label': 'Price', 'attr': {'class': 'form-control', 'placeholder': 'Enter price'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.type, {'label': 'Type', 'attr': {'class': 'form-control', 'placeholder': 'Enter type'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.city, {'label': 'City', 'attr': {'class': 'form-control', 'placeholder': 'Enter city'}}) }}
+                    </div>
+                    <div class="form-check mb-3">
+                        {{ form_row(form.isVisible, {'label': 'Is visible', 'attr': {'class': 'form-check-input'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.placeType) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.placeCity) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.photo) }}
+                    </div>
+                    <div class="text-center margin-top-custom">
+                        <button type="submit" class="btn btn-primary btn-block">Create</button>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

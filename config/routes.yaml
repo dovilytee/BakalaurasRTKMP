@@ -1,3 +1,14 @@
 controllers:
     resource: ../src/Controller/
     type: attribute
+not_found_list:
+    path: /not-found-list
+    controller:
+        App\Controller\CustomController::notFoundList
+trip_show:
+    path: /trip/{id}
+    controller: App\Controller\TripController::show_trip
+
+place_show:
+    path: /place/{id}
+    controller: App\Controller\PlaceController::show_place

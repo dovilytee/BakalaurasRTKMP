@@ -11,7 +11,7 @@
 
         <div class="row color-white" style="background-color:white;">
             <div class="col-lg-8 mx-auto">
-                <table id="trip" class="table">
+                <table id="trip" class="table table-custom">
                     <thead>
                     <tr>
                         <th>Name</th>
@@ -27,7 +27,7 @@
                             <td>{{ trip.getDescription }}</td>
 
                             <td>
-                                <a href="/trip/{{ trip.id }}" class="btn btn-dark">Rodyti</a>
+                                <a href="/trip/{{ trip.id }}" class="btn btn-dark">Show</a>
                             </td>
                         </tr>
                     {% endfor %}

@@ -122,6 +122,22 @@ class TripRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    public function findByCityAndNumber(?int $tripCityId, ?int $tripNumberId)
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        if ($tripCityId !== null) {
+            $qb->andWhere('p.tripCity = :tripCity')
+                ->setParameter('tripCity', $tripCityId);
+        }
+
+        if ($tripNumberId !== null) {
+            $qb->andWhere('p.tripNumber = :tripNumber')
+                ->setParameter('tripNumber', $tripNumberId);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 //    /**
 //     * @return Route[] Returns an array of Route objects
 //     */

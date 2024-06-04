@@ -11,10 +11,10 @@ class TripNumber
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
-
     #[ORM\Column(type: "integer")]
+    private $id;
+
+    #[ORM\Column(type: "string")]
     private $number;
 
     public function getId(): ?int
